@@ -53,6 +53,37 @@
   .polaroid .foto-real { width: 100%; object-fit: cover; object-position: center 30%; padding: 0; }
   .polaroid .pie { font-family: "Great Vibes", cursive; font-size: 1.6rem; text-align: center; margin-top: 8px; color: var(--rosado); }
 
+  /* Escenario de la portada: foto recortada con letras gigantes detrás */
+  .escenario { position: relative; height: 560px; display: flex; justify-content: center; align-items: flex-end; }
+  .escenario .letras { position: absolute; top: 40px; left: 50%; transform: translateX(-50%); font-family: "Alfa Slab One", serif;
+                       font-size: clamp(7rem, 16vw, 11rem); line-height: 1; color: var(--rosado); letter-spacing: -.02em; z-index: 0; }
+  .escenario .circulo { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 82%; aspect-ratio: 1;
+                        border-radius: 50%; background: #FFB8E3; z-index: 1; }
+  .escenario .recorte { position: relative; z-index: 2; height: 540px; width: auto; filter: drop-shadow(0 10px 18px rgba(102,20,48,.25)); }
+  .escenario .destello { position: absolute; z-index: 3; color: var(--burdeo); font-size: 2rem; }
+  .escenario .d1 { top: 30px; right: 8%; } .escenario .d2 { top: 52%; left: 4%; font-size: 1.4rem; color: var(--rosado); } .escenario .d3 { bottom: 70px; right: 2%; font-size: 1.2rem; }
+  .escenario .sticker { position: absolute; z-index: 3; bottom: 40px; left: 0; background: var(--blanco); color: var(--rosado);
+                        font-family: "Great Vibes", cursive; font-size: 1.9rem; padding: 4px 18px; border-radius: 999px;
+                        transform: rotate(-8deg); box-shadow: 0 6px 16px rgba(102,20,48,.15); }
+  .portada { overflow: hidden; }
+
+  /* Movimiento: la composición se tambalea suave de un lado a otro */
+  .composicion { position: absolute; inset: 0; display: flex; justify-content: center; align-items: flex-end;
+                 transform-origin: 50% 100%; animation: tambaleo 4.5s ease-in-out infinite alternate; }
+  .escenario .sticker { animation: sticker 2.8s ease-in-out infinite alternate; }
+  .escenario .destello { animation: brillo 2.2s ease-in-out infinite; }
+  .escenario .d2 { animation-delay: .7s; } .escenario .d3 { animation-delay: 1.4s; }
+  @keyframes tambaleo { from { transform: rotate(-2.5deg); } to { transform: rotate(2.5deg); } }
+  @keyframes sticker  { from { transform: rotate(-11deg) translateY(0); } to { transform: rotate(-5deg) translateY(-6px); } }
+  @keyframes brillo   { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.35); opacity: .55; } }
+  /* Si la persona tiene activado "reducir movimiento" en su celular, no se mueve */
+  /* Destellos repartidos por toda la página: solo titilan */
+  section { position: relative; }
+  .brillo { position: absolute; z-index: 0; pointer-events: none; font-size: 1.4rem; line-height: 1;
+            animation: brillo 2.4s ease-in-out infinite; }
+  .contenedor { position: relative; z-index: 1; }
+  @media (prefers-reduced-motion: reduce) { .escenario *, .brillo { animation: none !important; } }
+
   /* Portada */
   .portada { padding: 64px 0 80px; }
   .portada .contenedor { display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: center; }
@@ -129,6 +160,7 @@
   @media (max-width: 820px) {
     .menu { display: none; }
     .portada .contenedor, .sobre .contenedor, .creadoras .contenedor { grid-template-columns: 1fr; }
+    .escenario { height: 440px; } .escenario .recorte { height: 420px; }
     .metodo { grid-template-columns: 1fr 1fr; }
     .cifras ul { grid-template-columns: 1fr 1fr; }
     .planes { grid-template-columns: 1fr; }
@@ -155,6 +187,9 @@
 
   <!-- 1 · Portada -->
   <section class="portada">
+    <span class="brillo" aria-hidden="true" style="color:var(--rosado);top:8%;left:2%;font-size:1.6rem;animation-delay:0s">✦</span>
+    <span class="brillo" aria-hidden="true" style="color:var(--burdeo);top:70%;left:46%;font-size:1rem;animation-delay:.9s">✦</span>
+    <span class="brillo" aria-hidden="true" style="color:var(--rosado);top:88%;left:8%;font-size:1.1rem;animation-delay:1.6s">✦</span>
     <div class="contenedor">
       <div>
         <p class="saludo">hola, soy Vale</p>
@@ -165,9 +200,16 @@
           <a class="boton boton-burdeo" href="#negocios">Tengo un negocio</a>
         </div>
       </div>
-      <div class="polaroid">
-        <img class="foto foto-real" src="img/vale-portada.jpg" alt="Vale Pérez sonriendo frente a su computador y su cámara">
-        <p class="pie">Vale Pérez</p>
+      <div class="escenario" aria-hidden="false">
+        <div class="composicion">
+          <span class="letras" aria-hidden="true">VALE</span>
+          <span class="circulo" aria-hidden="true"></span>
+          <img class="recorte" src="img/vale-recorte.png" alt="Vale Pérez">
+          <span class="sticker" aria-hidden="true">creadora &amp; runner</span>
+        </div>
+        <span class="destello d1" aria-hidden="true">✦</span>
+        <span class="destello d2" aria-hidden="true">✦</span>
+        <span class="destello d3" aria-hidden="true">✦</span>
       </div>
     </div>
   </section>
@@ -186,6 +228,9 @@
 
   <!-- 2 · Sobre mí -->
   <section class="sobre" id="sobre-mi">
+    <span class="brillo" aria-hidden="true" style="color:var(--rosado);top:6%;right:4%;font-size:1.8rem;animation-delay:.3s">✦</span>
+    <span class="brillo" aria-hidden="true" style="color:var(--burdeo);top:45%;left:1.5%;font-size:1.1rem;animation-delay:1.2s">✦</span>
+    <span class="brillo" aria-hidden="true" style="color:var(--rosado);top:90%;right:12%;font-size:1rem;animation-delay:2s">✦</span>
     <div class="contenedor">
       <div class="polaroid">
         <img class="foto foto-real" src="img/vale-21k.jpg" alt="Vale Pérez celebrando con los brazos arriba en una carrera de 21K" style="object-position: center 25%">
@@ -212,6 +257,10 @@
 
   <!-- 3 · Camino creadoras -->
   <section class="creadoras" id="creadoras">
+    <span class="brillo" aria-hidden="true" style="color:var(--amarillo);top:5%;left:3%;font-size:2rem;animation-delay:0s">✦</span>
+    <span class="brillo" aria-hidden="true" style="color:var(--blanco);top:38%;right:2%;font-size:1.2rem;animation-delay:.8s">✦</span>
+    <span class="brillo" aria-hidden="true" style="color:var(--amarillo);top:78%;left:45%;font-size:1.1rem;animation-delay:1.5s">✦</span>
+    <span class="brillo" aria-hidden="true" style="color:var(--blanco);top:92%;left:6%;font-size:1.4rem;animation-delay:2.1s">✦</span>
     <div class="contenedor">
       <div>
         <span class="etiqueta">Para creadoras</span>
@@ -281,6 +330,10 @@
 
   <!-- 4 · Camino negocios (Factor V) -->
   <section class="negocios" id="negocios">
+    <span class="brillo" aria-hidden="true" style="color:var(--rosado);top:4%;right:5%;font-size:1.8rem;animation-delay:.4s">✦</span>
+    <span class="brillo" aria-hidden="true" style="color:var(--amarillo);top:30%;left:2%;font-size:1.1rem;animation-delay:1.3s">✦</span>
+    <span class="brillo" aria-hidden="true" style="color:var(--rosado);top:62%;right:1.5%;font-size:1.2rem;animation-delay:2s">✦</span>
+    <span class="brillo" aria-hidden="true" style="color:var(--amarillo);top:94%;left:40%;font-size:1rem;animation-delay:.9s">✦</span>
     <div class="contenedor">
       <span class="etiqueta">Para negocios</span>
       <h2>Tu community manager, con <span class="firma">Factor V</span></h2>
@@ -348,6 +401,10 @@
 
   <!-- 5 · Contacto -->
   <section class="contacto" id="contacto">
+    <span class="brillo" aria-hidden="true" style="color:var(--rosado);top:15%;left:10%;font-size:1.8rem;animation-delay:0s">✦</span>
+    <span class="brillo" aria-hidden="true" style="color:var(--burdeo);top:20%;right:12%;font-size:1.2rem;animation-delay:1s">✦</span>
+    <span class="brillo" aria-hidden="true" style="color:var(--rosado);top:75%;right:22%;font-size:1rem;animation-delay:1.8s">✦</span>
+    <span class="brillo" aria-hidden="true" style="color:var(--burdeo);top:70%;left:20%;font-size:1.1rem;animation-delay:.6s">✦</span>
     <div class="contenedor">
       <span class="etiqueta">Contacto</span>
       <h2>Hablamos?</h2>
