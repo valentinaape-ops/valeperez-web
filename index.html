@@ -146,6 +146,8 @@
   .cifras strong { display: block; font-family: "Alfa Slab One", serif; font-weight: 400; font-size: clamp(1.8rem, 4vw, 2.6rem); color: var(--rosado); line-height: 1.1; }
   .cifras span { font-size: .9rem; }
   .cita { font-family: "Great Vibes", cursive; font-size: 2rem; line-height: 1.2; margin: 20px 0; }
+  .resalte { display: inline-block; background: var(--rosado); color: var(--blanco); font-weight: 800; padding: 0 10px;
+             border-radius: 8px; transform: rotate(-3deg); }
   .cuenta { font-weight: 800; color: var(--burdeo); margin-bottom: 8px; }
   .precios { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin: 6px 0 4px; }
   .precios .antes { text-decoration: line-through; opacity: .6; font-size: 1.1rem; }
@@ -274,7 +276,7 @@
           <h3>Sale el 30 de octubre</h3>
           <p class="cuenta" id="cuenta" aria-live="polite"></p>
           <div class="precios"><span class="antes">$15.000</span><span class="ahora">$9.990</span></div>
-          <p>Únete a la lista de espera y te regalo mi guía <strong>"Arregla tu perfil en 20 minutos"</strong>. Además, el 30 de octubre te llega el precio de lanzamiento de $9.990.</p>
+          <p>Únete a la lista de espera y te <span class="resalte">regalo</span> mi guía <strong>"Arregla tu perfil en 20 minutos"</strong>. Además, el 30 de octubre te llega el precio de lanzamiento de $9.990.</p>
           <!-- Lista de espera conectada a MailerLite (formulario "Lista de espera web") -->
           <div id="mlb2-47269727" class="ml-form-embedContainer ml-subscribe-form ml-subscribe-form-47269727">
             <div class="ml-form-embedBody row-form">
@@ -301,7 +303,7 @@
             </div>
             <div class="ml-form-successBody row-success" style="display: none">
               <p class="exito"><strong>Estás en la lista! 🏃‍♀️</strong><br>
-                Revisa tu correo, ahí te llega tu guía de regalo. Y el viernes 30 de octubre a las 12:00 te llega
+                Revisa tu correo, ahí te llega tu guía de <span class="resalte">regalo</span>. Y el viernes 30 de octubre a las 12:00 te llega
                 el precio de lanzamiento de <em>De 0 a 10K</em>. Nos vemos en la largada!</p>
             </div>
           </div>
