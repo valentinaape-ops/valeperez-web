@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Great+Vibes&family=Poppins:wght@400;500;600;800&display=swap" rel="stylesheet">
 <style>
-  /* Colores de marca */
+  /* Colores aproximados (los códigos exactos están PENDIENTE: ver referencia/marca.md) */
   :root {
     --amarillo: #FFF9CC;   /* las dos marcas */
     --rosado:   #FF5BBF;   /* Vale Pérez */
@@ -44,6 +44,19 @@
   .menu { display: flex; gap: 22px; list-style: none; font-weight: 500; font-size: .95rem; }
   .menu a { text-decoration: none; }
   .menu a:hover { color: var(--rosado); }
+  .menu .pestana { background: var(--rosado); color: var(--blanco); padding: 6px 14px; border-radius: 999px; font-weight: 700; }
+  .menu .pestana:hover { color: var(--blanco); }
+
+  /* Herramientas gratis (hacen volver a la gente a la web) */
+  .herramientas { background: var(--amarillo); }
+  .herramientas .cabeza { text-align: center; max-width: 640px; margin: 0 auto 32px; }
+  .herramientas .tarjetas { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px; }
+  .herramienta { background: var(--blanco); border: 3px solid var(--rosado); border-radius: 24px; padding: 26px; text-decoration: none;
+                 display: flex; flex-direction: column; gap: 10px; transition: transform .15s, box-shadow .15s; }
+  .herramienta:hover { transform: translateY(-4px); box-shadow: 0 16px 30px #66143022; }
+  .herramienta .icono { font-size: 2.2rem; line-height: 1; }
+  .herramienta h3 { font-family: "Alfa Slab One", serif; font-weight: 400; font-size: 1.45rem; line-height: 1.1; }
+  .herramienta .ir { margin-top: auto; font-weight: 800; color: var(--rosado); }
 
   /* Botones */
   .boton { display: inline-block; font-weight: 600; text-decoration: none; padding: 14px 28px; border-radius: 999px;
@@ -168,7 +181,8 @@
 
   /* Celular */
   @media (max-width: 820px) {
-    .menu { display: none; }
+    .menu li:not(.movil) { display: none; }
+    .menu .pestana { font-size: .85rem; padding: 6px 12px; }
     .portada .contenedor, .sobre .contenedor, .creadoras .contenedor { grid-template-columns: 1fr; }
     .escenario { height: 440px; } .escenario .recorte { height: 340px; }
     .portada .brillo:first-child { top: 2% !important; left: auto !important; right: 8% !important; }
@@ -190,6 +204,7 @@
     <ul class="menu">
       <li><a href="#sobre-mi">Sobre mí</a></li>
       <li><a href="#creadoras">Creadoras</a></li>
+      <li class="movil"><a class="pestana" href="#herramientas">✦ Herramientas</a></li>
       <li><a href="#negocios">Negocios</a></li>
       <li><a href="#contacto">Contacto</a></li>
     </ul>
@@ -337,6 +352,32 @@
           <li><span class="km">KM 10</span> Varias fuentes de ingreso</li>
           <li><span class="km">META</span> La versión de ti que admiras</li>
         </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- Herramientas gratis -->
+  <section class="herramientas" id="herramientas">
+    <span class="brillo" aria-hidden="true" style="color:var(--rosado);top:6%;right:6%;font-size:1.8rem;animation-delay:.3s">✦</span>
+    <div class="contenedor">
+      <div class="cabeza">
+        <span class="etiqueta">Gratis</span>
+        <h2>Herramientas para tu perfil</h2>
+        <p>Úsalas cuando quieras, las veces que quieras. Las hice con lo mismo que uso con mis clientes.</p>
+      </div>
+      <div class="tarjetas">
+        <a class="herramienta" href="engagement/">
+          <span class="icono" aria-hidden="true">📊</span>
+          <h3>Calculadora de engagement</h3>
+          <p>Descubre tu engagement, en qué nivel de creadora estás y cuánto podrías cobrarle a una marca.</p>
+          <span class="ir">Calcular el mío →</span>
+        </a>
+        <a class="herramienta" href="bio/">
+          <span class="icono" aria-hidden="true">✍️</span>
+          <h3>Revisa tu bio</h3>
+          <p>Contador de caracteres, vista previa de tu perfil y una checklist con puntaje para dejar tu vitrina lista.</p>
+          <span class="ir">Revisar la mía →</span>
+        </a>
       </div>
     </div>
   </section>
