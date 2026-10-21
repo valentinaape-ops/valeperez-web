@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de engagement · Vale Pérez</title>
+<meta name="description" content="Calcula tu engagement de Instagram en 1 minuto y descubre en qué nivel estás y cuánto podrías cobrarle a una marca. Gratis, de Vale Pérez.">
+<meta property="og:title" content="Calcula tu engagement en 1 minuto">
+<meta property="og:description" content="Descubre tu engagement, tu nivel de creadora y tu rango de tarifa. Gratis, de Vale Pérez.">
+<meta property="og:image" content="https://valeperez.cl/img/guia-portada.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Great+Vibes&family=Poppins:wght@400;500;600;800&display=swap" rel="stylesheet">
+<style>
+  /* Calculadora de engagement: herramienta gratis que trae tráfico a valeperez.cl (link desde el Km 9 del ebook) */
+  :root { --amarillo: #FFF9CC; --rosado: #FF5BBF; --rosado-claro: #FFB8E3; --rosado-suave: #FFE3F3; --burdeo: #661430; --blanco: #FFFFFF; --verde: #2E9E4F; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Poppins", sans-serif; color: var(--burdeo); background: var(--amarillo); line-height: 1.55; }
+  img { max-width: 100%; display: block; }
+  .contenedor { width: min(1060px, 100% - 32px); margin-inline: auto; position: relative; z-index: 1; }
+  header { padding: 18px 0; }
+  .logo { font-family: "Alfa Slab One", serif; font-size: 1.3rem; color: var(--rosado); text-decoration: none; }
+  .etiqueta { display: inline-block; background: var(--rosado); color: var(--blanco); font-weight: 800; font-size: .78rem;
+              letter-spacing: .08em; padding: 5px 12px; border-radius: 8px; }
+  h1 { font-family: "Alfa Slab One", serif; font-weight: 400; font-size: clamp(2.2rem, 6.5vw, 3.8rem); line-height: 1.04; margin: 12px 0 10px; text-wrap: balance; }
+  h1 .pastilla { display: inline-block; background: var(--rosado); color: var(--blanco); padding: 0 14px 6px; border-radius: 14px; transform: rotate(-2deg); }
+  .bajada { font-size: 1.08rem; max-width: 40ch; }
+  h2 { font-family: "Alfa Slab One", serif; font-weight: 400; font-size: clamp(1.6rem, 4.5vw, 2.3rem); line-height: 1.1; margin-bottom: 16px; }
+  h2 span { color: var(--rosado); }
+  section { position: relative; }
+
+  .arriba { padding: 6px 0 56px; }
+  .arriba .contenedor { display: grid; grid-template-columns: .9fr 1.1fr; gap: 40px; align-items: start; }
+  .formula { margin-top: 22px; background: var(--burdeo); color: var(--amarillo); border-radius: 16px; padding: 14px 18px; font-weight: 600; font-size: .92rem; max-width: 420px; }
+  .formula small { display: block; font-weight: 400; opacity: .8; margin-top: 4px; font-size: .78rem; }
+
+  /* Calculadora */
+  .calc { background: var(--blanco); border: 3px solid var(--rosado); border-radius: 26px; padding: 24px; box-shadow: 0 18px 40px rgba(102,20,48,.12); }
+  .calc label { display: block; font-weight: 600; font-size: .9rem; margin-bottom: 6px; }
+  .calc input { width: 100%; padding: 13px 16px; border-radius: 14px; border: 2px solid var(--rosado-claro); font: inherit; font-size: 1.05rem; color: var(--burdeo); background: var(--blanco); }
+  .calc input:focus { outline: none; border-color: var(--rosado); }
+  .campo { margin-bottom: 14px; }
+  .grilla { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 14px; }
+  .sub { font-size: .8rem; opacity: .8; margin: -2px 0 12px; }
+  .ayuda { background: var(--rosado-suave); border-radius: 14px; padding: 10px 14px; font-size: .82rem; margin: 4px 0 16px; }
+  .boton { display: inline-block; width: 100%; text-align: center; font: inherit; font-weight: 800; font-size: 1.05rem; text-decoration: none;
+           background: var(--rosado); color: var(--blanco); border: 0; border-radius: 999px; padding: 15px 24px; cursor: pointer; transition: transform .15s; }
+  .boton:hover { transform: translateY(-2px); }
+  .boton.claro { background: var(--blanco); color: var(--rosado); border: 2px solid var(--rosado); }
+  .error { color: #C62828; font-weight: 600; font-size: .9rem; margin-top: 10px; }
+
+  /* Resultado */
+  .resultado { margin-top: 20px; border-top: 2px dashed var(--rosado-claro); padding-top: 20px; }
+  .numero { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .numero b { font-family: "Alfa Slab One", serif; font-weight: 400; font-size: clamp(3rem, 12vw, 4.4rem); line-height: 1; color: var(--rosado); }
+  .numero span { font-weight: 600; }
+  .veredicto { display: inline-block; margin: 10px 0 14px; padding: 6px 14px; border-radius: 999px; font-weight: 800; font-size: .9rem; }
+  .veredicto.alto { background: #DCF2E3; color: var(--verde); }
+  .veredicto.medio { background: var(--amarillo); color: var(--burdeo); }
+  .veredicto.bajo { background: var(--rosado-suave); color: var(--burdeo); }
+  .barra { position: relative; height: 14px; border-radius: 999px; background: linear-gradient(90deg, var(--rosado-suave), var(--rosado-claro), var(--rosado)); margin: 8px 0 4px; }
+  .barra .zona { position: absolute; top: -4px; bottom: -4px; border: 2px solid var(--burdeo); border-radius: 999px; }
+  .barra .yo { position: absolute; top: -9px; width: 4px; height: 32px; background: var(--burdeo); border-radius: 4px; transform: translateX(-50%); }
+  .escala { display: flex; justify-content: space-between; font-size: .72rem; opacity: .75; }
+  .fichas { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+  .ficha { background: var(--amarillo); border-radius: 16px; padding: 12px 14px; }
+  .ficha small { display: block; font-size: .74rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; opacity: .75; }
+  .ficha strong { font-size: 1.05rem; }
+  .consejo { font-size: .95rem; margin-bottom: 14px; }
+  .acciones { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .copiado { font-size: .82rem; text-align: center; margin-top: 8px; min-height: 1.2em; }
+  [hidden] { display: none !important; }
+
+  /* Tabla de niveles */
+  .niveles { background: var(--rosado); color: var(--blanco); padding: 60px 0; }
+  .niveles h2 span { color: var(--amarillo); }
+  .tabla { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; background: var(--blanco); color: var(--burdeo); border-radius: 18px; overflow: hidden; font-size: .95rem; min-width: 560px; }
+  th { background: var(--burdeo); color: var(--amarillo); text-align: left; padding: 12px 14px; font-size: .8rem; letter-spacing: .05em; text-transform: uppercase; }
+  td { padding: 12px 14px; border-top: 1px solid var(--rosado-suave); }
+  td:first-child { font-weight: 800; color: var(--rosado); }
+  .fuentes { font-size: .78rem; margin-top: 14px; opacity: .9; }
+  .fuentes a { color: var(--blanco); }
+
+  /* Siguiente paso */
+  .siguiente { padding: 64px 0; }
+  .siguiente .contenedor { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: stretch; }
+  .tarjeta { background: var(--blanco); border-radius: 24px; padding: 26px; border: 3px solid var(--rosado-claro); display: flex; flex-direction: column; gap: 10px; }
+  .tarjeta h3 { font-family: "Alfa Slab One", serif; font-weight: 400; font-size: 1.5rem; line-height: 1.1; }
+  .tarjeta .manuscrita { font-family: "Great Vibes", cursive; color: var(--rosado); font-size: 1.7rem; line-height: 1; }
+  .caja .ml-form-formContent { display: grid; gap: 10px; margin-bottom: 10px; }
+  .caja input { width: 100%; padding: 13px 16px; border-radius: 999px; border: 2px solid var(--rosado); font: inherit; color: var(--burdeo); background: var(--blanco); }
+  .letra-chica { font-size: .8rem; text-align: center; margin-top: 8px; }
+  .exito { text-align: center; }
+  .exito strong { display: block; font-family: "Alfa Slab One", serif; font-weight: 400; font-size: 1.4rem; color: var(--rosado); margin-bottom: 6px; }
+
+  footer { background: var(--burdeo); color: var(--amarillo); text-align: center; padding: 22px 16px; font-size: .85rem; }
+  footer a { color: var(--amarillo); }
+  .brillo { position: absolute; z-index: 0; pointer-events: none; line-height: 1; animation: brillo 2.4s ease-in-out infinite; }
+  @keyframes brillo { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.35); opacity: .55; } }
+  @media (prefers-reduced-motion: reduce) { .brillo { animation: none; } }
+
+  @media (max-width: 820px) {
+    .arriba .contenedor, .siguiente .contenedor { grid-template-columns: 1fr; gap: 24px; }
+    .acciones { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="contenedor"><a class="logo" href="../">Vale Pérez</a></div>
+</header>
+
+<main>
+  <section class="arriba">
+    <span class="brillo" aria-hidden="true" style="top:2%;right:5%;font-size:1.8rem;color:var(--rosado)">✦</span>
+    <span class="brillo" aria-hidden="true" style="top:58%;left:2%;font-size:1.1rem;color:var(--burdeo);animation-delay:.9s">✦</span>
+    <div class="contenedor">
+      <div>
+        <span class="etiqueta">HERRAMIENTA GRATIS</span>
+        <h1>Calcula tu <span class="pastilla">engagement</span> en 1 minuto</h1>
+        <p class="bajada">Descubre si tu comunidad de verdad interactúa contigo, en qué nivel de creadora estás y cuánto podrías cobrarle a una marca.</p>
+        <div class="formula">Engagement = (me gusta + comentarios + compartidos + guardados) ÷ seguidores × 100
+          <small>Fórmula de Virallized (2026), la misma que uso en el Km 9 de mi ebook.</small></div>
+      </div>
+
+      <form class="calc" id="calc" novalidate>
+        <div class="campo">
+          <label for="seguidores">Tus seguidores</label>
+          <input id="seguidores" inputmode="numeric" placeholder="por ejemplo 12.500" autocomplete="off">
+        </div>
+        <p class="sub">Ahora, el <strong>promedio por publicación</strong> de tus últimas 10:</p>
+        <div class="grilla">
+          <div class="campo"><label for="likes">Me gusta</label><input id="likes" inputmode="numeric" placeholder="0" autocomplete="off"></div>
+          <div class="campo"><label for="comentarios">Comentarios</label><input id="comentarios" inputmode="numeric" placeholder="0" autocomplete="off"></div>
+          <div class="campo"><label for="compartidos">Compartidos</label><input id="compartidos" inputmode="numeric" placeholder="0" autocomplete="off"></div>
+          <div class="campo"><label for="guardados">Guardados</label><input id="guardados" inputmode="numeric" placeholder="0" autocomplete="off"></div>
+        </div>
+        <p class="ayuda">💡 Lo encuentras en cada publicación → <strong>Ver estadísticas</strong>. Suma tus últimas 10 y divide por 10. Si no sabes compartidos o guardados, déjalos en 0.</p>
+        <button class="boton" type="submit">Calcular mi engagement</button>
+        <p class="error" id="error" hidden></p>
+
+        <div class="resultado" id="resultado" hidden aria-live="polite">
+          <div class="numero"><b id="r-er">0%</b><span>de engagement</span></div>
+          <span class="veredicto" id="r-veredicto"></span>
+          <div class="barra" aria-hidden="true"><span class="zona" id="r-zona"></span><span class="yo" id="r-yo"></span></div>
+          <div class="escala"><span>0%</span><span>3%</span><span>6%</span><span>9%+</span></div>
+          <div class="fichas">
+            <div class="ficha"><small>Tu nivel</small><strong id="r-nivel"></strong></div>
+            <div class="ficha"><small>Promedio de tu nivel</small><strong id="r-prom"></strong></div>
+            <div class="ficha" style="grid-column: 1 / -1"><small>Tarifa referencial por reel en Chile</small><strong id="r-tarifa"></strong></div>
+          </div>
+          <p class="consejo" id="r-consejo"></p>
+          <div class="acciones">
+            <button class="boton" type="button" id="compartir">Compartir mi resultado</button>
+            <a class="boton claro" href="#siguiente">Quiero subir mis números</a>
+          </div>
+          <p class="copiado" id="copiado"></p>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="niveles">
+    <span class="brillo" aria-hidden="true" style="top:4%;right:5%;font-size:1.8rem;color:var(--amarillo)">✦</span>
+    <div class="contenedor">
+      <h2>Los niveles <span>en Chile</span></h2>
+      <div class="tabla">
+        <table>
+          <thead><tr><th>Nivel</th><th>Seguidores</th><th>Engagement promedio</th><th>Tarifa por reel (CLP)</th></tr></thead>
+          <tbody>
+            <tr><td>Nano</td><td>1K – 10K</td><td>4% – 6%</td><td>Canje – $80.000</td></tr>
+            <tr><td>Micro</td><td>10K – 100K</td><td>2% – 5%</td><td>$80.000 – $500.000</td></tr>
+            <tr><td>Macro</td><td>100K – 1M</td><td>1,5% – 3%</td><td>$500.000 – $2.500.000</td></tr>
+            <tr><td>Mega</td><td>1M+</td><td>0,5% – 2%</td><td>Desde $10.000.000 por campaña</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="fuentes">Valores referenciales a 2026; varían según nicho, formato y mercado. Fuentes:
+        tarifas, <a href="https://copywriters.cl/influencer-marketing-chile-2025/" target="_blank" rel="noopener">Copywriters.cl (2026)</a> ·
+        engagement por nivel, <a href="https://creatorflow.so/blog/instagram-engagement-rate/" target="_blank" rel="noopener">CreatorFlow (2026)</a> ·
+        fórmula, <a href="https://www.virallized.com/blog/good-instagram-engagement-rate-2026" target="_blank" rel="noopener">Virallized (2026)</a>.
+        Tus números no se guardan: el cálculo se hace en tu celular.</p>
+    </div>
+  </section>
+
+  <section class="siguiente" id="siguiente">
+    <div class="contenedor">
+      <div class="tarjeta">
+        <span class="etiqueta" style="align-self:flex-start">GRATIS</span>
+        <h3>Arregla tu perfil en 20 minutos</h3>
+        <p>Un buen engagement parte por un perfil que convence. Te mando mi guía gratis y quedas en la lista del ebook con precio especial.</p>
+        <div class="caja" id="formulario">
+          <!-- Conectado a MailerLite: formulario "Lista de espera web" (la guía llega en el correo de bienvenida) -->
+          <div id="mlb2-47269727" class="ml-form-embedContainer ml-subscribe-form ml-subscribe-form-47269727">
+            <div class="ml-form-embedBody row-form">
+              <form class="ml-block-form" action="https://assets.mailerlite.com/jsonp/2720895/forms/201605972318225733/subscribe" data-code="" method="post" target="_blank">
+                <div class="ml-form-formContent">
+                  <div class="ml-form-fieldRow">
+                    <div class="ml-field-group ml-field-name ml-validate-required">
+                      <input aria-label="Tu nombre" aria-required="true" required type="text" name="fields[name]" placeholder="tu nombre" autocomplete="given-name">
+                    </div>
+                  </div>
+                  <div class="ml-form-fieldRow ml-last-item">
+                    <div class="ml-field-group ml-field-email ml-validate-email ml-validate-required">
+                      <input aria-label="Tu correo" aria-required="true" type="email" name="fields[email]" placeholder="tu correo" autocomplete="email">
+                    </div>
+                  </div>
+                </div>
+                <input type="hidden" name="ml-submit" value="1">
+                <div class="ml-form-embedSubmit">
+                  <button type="submit" class="primary boton">Quiero mi guía</button>
+                  <button disabled="disabled" style="display: none;" type="button" class="loading boton">Enviando…</button>
+                </div>
+                <input type="hidden" name="anticsrf" value="true">
+              </form>
+              <p class="letra-chica">Te llega en minutos a tu correo. Sin spam, prometido.</p>
+            </div>
+            <div class="ml-form-successBody row-success" style="display: none">
+              <p class="exito"><strong>Listo! Revisa tu correo 💌</strong>
+                En unos minutos te llega tu guía. Si no la ves, revisa spam o promociones.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tarjeta">
+        <span class="etiqueta" style="align-self:flex-start;background:var(--burdeo);color:var(--amarillo)">EBOOK · 30 DE OCTUBRE</span>
+        <h3>De 0 a 10K</h3>
+        <p class="manuscrita">crecer en redes y aprender a cobrar</p>
+        <p>Mi camino como creadora y como runner, kilómetro a kilómetro. En el <strong>Km 9</strong> te enseño a definir tu tarifa,
+           armar tus paquetes y negociar con marcas sin cobrar de menos, como me pasó a mí.</p>
+        <p>Sale el <strong>viernes 30 de octubre</strong>. Si te inscribes con la guía, te llega primero y con precio de lanzamiento.</p>
+        <a class="boton" href="#formulario" style="margin-top:auto">Quiero el precio de lanzamiento</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>© 2026 Vale Pérez · <a href="../">valeperez.cl</a> · <a href="../guia/">Guía gratis</a></footer>
+
+<script>
+  // ---------- Calculadora (todo se calcula en el navegador, no se guarda nada) ----------
+  // Niveles y promedios: Copywriters.cl (2026) y CreatorFlow (2026), igual que la tabla del Km 9 del ebook
+  var NIVELES = [
+    { nombre: "Nano", desde: 1000, hasta: 10000, min: 4, max: 6, tarifa: "Canje – $80.000" },
+    { nombre: "Micro", desde: 10000, hasta: 100000, min: 2, max: 5, tarifa: "$80.000 – $500.000" },
+    { nombre: "Macro", desde: 100000, hasta: 1000000, min: 1.5, max: 3, tarifa: "$500.000 – $2.500.000" },
+    { nombre: "Mega", desde: 1000000, hasta: Infinity, min: 0.5, max: 2, tarifa: "Desde $10.000.000 por campaña" }
+  ];
+  var $ = function (id) { return document.getElementById(id); };
+  var ultimo = "";
+
+  function num(id) {
+    var v = $(id).value.replace(/[.\s]/g, "").replace(",", ".");
+    return v === "" ? 0 : Number(v);
+  }
+  function fmt(n) { return n.toLocaleString("es-CL", { maximumFractionDigits: 2 }); }
+
+  // Puntos de miles mientras escribe (12500 -> 12.500)
+  ["seguidores", "likes", "comentarios", "compartidos", "guardados"].forEach(function (id) {
+    $(id).addEventListener("input", function () {
+      var limpio = this.value.replace(/\D/g, "");
+      this.value = limpio ? Number(limpio).toLocaleString("es-CL") : "";
+    });
+  });
+
+  $("calc").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var seg = num("seguidores"), l = num("likes"), c = num("comentarios"), s = num("compartidos"), g = num("guardados");
+    var err = $("error");
+    if (!seg || seg < 1) { err.textContent = "Escribe cuántos seguidores tienes."; err.hidden = false; return; }
+    if (l + c + s + g === 0) { err.textContent = "Escribe al menos tu promedio de me gusta."; err.hidden = false; return; }
+    err.hidden = true;
+
+    var er = (l + c + s + g) / seg * 100;
+    var nivel = NIVELES.filter(function (n) { return seg >= n.desde && seg < n.hasta; })[0];
+    $("r-er").textContent = fmt(Math.round(er * 100) / 100) + "%";
+
+    var v = $("r-veredicto"), consejo;
+    if (!nivel) {
+      $("r-nivel").textContent = "Empezando (menos de 1.000)";
+      $("r-prom").textContent = "Aún no hay tabla";
+      $("r-tarifa").textContent = "Todavía no entra en la tabla: este es tu momento de crear contenido del rubro que sueñas";
+      v.className = "veredicto medio"; v.textContent = "Vas partiendo ✦";
+      consejo = "Con menos de 1.000 seguidores el engagement cambia mucho de una publicación a otra. Enfócate en publicar constante y en lo que más se comparte.";
+      $("r-zona").style.left = (4 / 9 * 100) + "%"; $("r-zona").style.width = (2 / 9 * 100) + "%";
+    } else {
+      $("r-nivel").textContent = nivel.nombre + " · " + fmt(nivel.desde) + (nivel.hasta === Infinity ? "+" : " a " + fmt(nivel.hasta));
+      $("r-prom").textContent = fmt(nivel.min) + "% – " + fmt(nivel.max) + "%";
+      $("r-tarifa").textContent = nivel.tarifa;
+      $("r-zona").style.left = Math.min(nivel.min / 9 * 100, 100) + "%";
+      $("r-zona").style.width = Math.min((nivel.max - nivel.min) / 9 * 100, 100) + "%";
+      if (er > nivel.max) {
+        v.className = "veredicto alto"; v.textContent = "Sobre el promedio de tu nivel 🔥";
+        consejo = "Tu comunidad interactúa más que el promedio. Ese es tu mejor argumento para negociar: puedes apuntar a la parte alta de tu rango.";
+      } else if (er >= nivel.min) {
+        v.className = "veredicto medio"; v.textContent = "En el promedio de tu nivel";
+        consejo = "Vas bien. Para subir, crea contenido que se guarde y se comparta (tips útiles, datos que nadie cuenta) y responde todos los comentarios en la primera hora.";
+      } else {
+        v.className = "veredicto bajo"; v.textContent = "Bajo el promedio de tu nivel";
+        consejo = "Tranquila, se puede subir. Revisa que tu perfil sea claro, publica con constancia y termina tus videos con una pregunta o una razón para guardarlos.";
+      }
+    }
+    $("r-yo").style.left = Math.min(er / 9 * 100, 100) + "%";
+    $("r-consejo").textContent = consejo;
+    ultimo = "Mi engagement en Instagram es " + $("r-er").textContent + " (" + v.textContent.replace(/[🔥✦]/g, "").trim().toLowerCase() + "). Calcula el tuyo gratis en valeperez.cl/engagement";
+    $("resultado").hidden = false;
+    $("copiado").textContent = "";
+    $("resultado").scrollIntoView({ behavior: "smooth", block: "nearest" });
+  });
+
+  $("compartir").addEventListener("click", function () {
+    var aviso = $("copiado");
+    if (navigator.share) {
+      navigator.share({ text: ultimo, url: "https://valeperez.cl/engagement/" }).catch(function () {});
+      return;
+    }
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(ultimo).then(function () { aviso.textContent = "Copiado! Pégalo en tus historias 💌"; },
+        function () { aviso.textContent = ultimo; });
+    } else {
+      aviso.textContent = ultimo;
+    }
+  });
+
+  // MailerLite: muestra el mensaje de éxito al inscribirse
+  function ml_webform_success_47269727() {
+    var jq = window.ml_jQuery || window.jQuery;
+    jq('.ml-subscribe-form-47269727 .row-success').show();
+    jq('.ml-subscribe-form-47269727 .row-form').hide();
+  }
+</script>
+<script src="https://groot.mailerlite.com/js/w/webforms.min.js?v83147fa8ce2d95cb73ece7f28b469519" type="text/javascript"></script>
+<script>
+  fetch("https://assets.mailerlite.com/jsonp/2720895/forms/201605972318225733/takel");
+</script>
+</body>
+</html>
